@@ -4,7 +4,6 @@ const connectDB = async () => {
     try {
         // Use the hardcoded fallback here too
         const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/academia_synapse';
-        // const uri = "mongodb+srv://student_user:Pass12345@cluster0.mongodb.net/synapse";
         await mongoose.connect(uri);
         console.log('MongoDB Connected via config/db.js');
     } catch (err) {
