@@ -19143,6 +19143,7 @@ var require_undici = __commonJS({
 });
 
 // index.js
+var import_fs2 = __toESM(require("fs"));
 var import_path = __toESM(require("path"));
 
 // node_modules/@actions/core/lib/command.js
@@ -19562,10 +19563,10 @@ var _summary = new Summary();
 var import_os2 = __toESM(require("os"), 1);
 
 // node_modules/@actions/io/lib/io-util.js
-var fs2 = __toESM(require("fs"), 1);
-var { chmod, copyFile, lstat, mkdir, open, readdir, rename, rm, rmdir, stat, symlink, unlink } = fs2.promises;
+var fs = __toESM(require("fs"), 1);
+var { chmod, copyFile, lstat, mkdir, open, readdir, rename, rm, rmdir, stat, symlink, unlink } = fs.promises;
 var IS_WINDOWS = process.platform === "win32";
-var READONLY = fs2.constants.O_RDONLY;
+var READONLY = fs.constants.O_RDONLY;
 
 // node_modules/@actions/exec/lib/toolrunner.js
 var IS_WINDOWS2 = process.platform === "win32";
@@ -19606,11 +19607,15 @@ async function run() {
   try {
     const searchPath = getInput("search_path");
     const filePath = import_path.default.join(process.cwd(), searchPath, "db.js");
-    if (!fs.existsSync(filePath)) {
-      info(`No file found at ${filePath}, skipping scan.`);
+    if (!import_fs2.default.existsSync(filePath)) {
+      if (failOnMissing) {
+        setFailed(`CRITICAL SECURITY ERROR: Required configuration file not found at ${filePath}. Failing security gate.`);
+      } else {
+        info(`No file found at ${filePath}, skipping scan as configured.`);
+      }
       return;
     }
-    const content = fs.readFileSync(filePath, "utf8");
+    const content = import_fs2.default.readFileSync(filePath, "utf8");
     const secretRegex = /mongodb\+srv:\/\/[a-zA-Z0-9._%+-]+:[a-zA-Z0-9._%+-]+@/g;
     if (secretRegex.test(content)) {
       setFailed("CRITICAL SECURITY ERROR: Hardcoded MongoDB credentials detected in db.js!");

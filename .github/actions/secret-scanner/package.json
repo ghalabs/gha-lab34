@@ -1,7 +1,6 @@
 {
   "name": "secret-scanner",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +14,6 @@
   },
   "devDependencies": {
     "cross-env": "^10.1.0"
-  }
+  },
+  "description": ""
 }
