@@ -19,10 +19,10 @@ jobs:
       - name: Install Scanner Dependencies
         run: npm install
         working-directory: .github/actions/secret-scanner
- 
-      - name: Run Secret Scanner Script
-        # We call the script directly with node instead of letting GitHub wrap it
-        run: node .github/actions/secret-scanner/index.js
-        env:
-          # GitHub Actions inputs are just environment variables prefixed with INPUT_
-          INPUT_SEARCH_PATH: 'backend/src/config'
+
+      - name: Run Secret Scanner Custom Action
+        # Invoking the action via its manifest (action.yml)
+        uses: ./.github/actions/secret-scanner
+        with:
+          search_path: 'backend/src/config'
+          fail_on_missing: 'true'
