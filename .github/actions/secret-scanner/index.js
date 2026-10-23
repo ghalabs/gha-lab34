@@ -8,7 +8,11 @@ async function run() {
     const filePath = path.join(process.cwd(), searchPath, 'db.js');
 
     if (!fs.existsSync(filePath)) {
-      core.info(`No file found at ${filePath}, skipping scan.`);
+      if (failOnMissing) {
+        core.setFailed(`CRITICAL SECURITY ERROR: Required configuration file not found at ${filePath}. Failing security gate.`);
+      } else {
+        core.info(`No file found at ${filePath}, skipping scan as configured.`);
+      }
       return;
     }
 
