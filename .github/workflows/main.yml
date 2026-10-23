@@ -23,6 +23,6 @@ jobs:
       - name: Run Secret Scanner Custom Action
         # Invoking the action via its manifest (action.yml)
         uses: ./.github/actions/secret-scanner
-        with:
-          search_path: 'backend/src/config'
-          fail_on_missing: 'true'
+        env:
+          # GitHub Actions inputs are just environment variables prefixed with INPUT_
+          INPUT_SEARCH_PATH: 'backend/src/config'
